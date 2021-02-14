@@ -54,7 +54,7 @@ namespace Test
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=ContactInfoModels}/{action=Create}/{id?}");
+                    pattern: "{controller=UserModels}/{action=Create}/{id?}");
             });
         }
     }

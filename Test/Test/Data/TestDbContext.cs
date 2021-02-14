@@ -10,9 +10,7 @@ namespace Test.Data
 {
     public class TestDbContext:DbContext
     {
-        public DbSet<AddressModel> AddressModels { get; set; }
-        public DbSet<AreasModel> AreasModels { get; set; }
-        public DbSet<ContactInfoModel> ContactInfoModels { get; set; }
+        public DbSet<UserModel> Users { get; set; }
         public TestDbContext(DbContextOptions<TestDbContext> options):
             base(options)
         {

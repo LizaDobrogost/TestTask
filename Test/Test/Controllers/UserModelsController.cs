@@ -10,22 +10,22 @@ using Test.Models;
 
 namespace Test.Controllers
 {
-    public class ContactInfoModelsController : Controller
+    public class UserModelsController : Controller
     {
         private readonly TestDbContext _context;
 
-        public ContactInfoModelsController(TestDbContext context)
+        public UserModelsController(TestDbContext context)
         {
             _context = context;
         }
 
-        // GET: ContactInfoModels
+        // GET: UserModels
         public async Task<IActionResult> Index()
         {
-            return View(await _context.ContactInfoModels.ToListAsync());
+            return View(await _context.Users.ToListAsync());
         }
 
-        // GET: ContactInfoModels/Details/5
+        // GET: UserModels/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,17 +33,17 @@ namespace Test.Controllers
                 return NotFound();
             }
 
-            var contactInfoModel = await _context.ContactInfoModels
+            var userModel = await _context.Users
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (contactInfoModel == null)
+            if (userModel == null)
             {
                 return NotFound();
             }
 
-            return View(contactInfoModel);
+            return View(userModel);
         }
 
-        // GET: ContactInfoModels/Create
+        // GET: UserModels/Create
         public IActionResult Create()
         {
             return View();
@@ -52,23 +52,26 @@ namespace Test.Controllers
         {
             return View();
         }
-        // POST: ContactInfoModels/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        public IActionResult Page3()
+        {
+            return View();
+        }
+
+        // POST: UserModels/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FirstName,MiddleName,LastName,Company,Title,Email,Phone,Fax,Mobile")] ContactInfoModel contactInfoModel)
+        public async Task<IActionResult> Create([Bind("Id,FirstName,MiddleName,LastName,Company,Title,Email,Phone,Fax,Mobile,Comments,Country,OfficeName,Address,PostalCode,City,State")] UserModel userModel)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(contactInfoModel);
+                _context.Add(userModel);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(contactInfoModel);
+            return View(userModel);
         }
 
-        // GET: ContactInfoModels/Edit/5
+        // GET: UserModels/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -76,22 +79,22 @@ namespace Test.Controllers
                 return NotFound();
             }
 
-            var contactInfoModel = await _context.ContactInfoModels.FindAsync(id);
-            if (contactInfoModel == null)
+            var userModel = await _context.Users.FindAsync(id);
+            if (userModel == null)
             {
                 return NotFound();
             }
-            return View(contactInfoModel);
+            return View(userModel);
         }
 
-        // POST: ContactInfoModels/Edit/5
+        // POST: UserModels/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,MiddleName,LastName,Company,Title,Email,Phone,Fax,Mobile")] ContactInfoModel contactInfoModel)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,MiddleName,LastName,Company,Title,Email,Phone,Fax,Mobile,Comments,Country,OfficeName,Address,PostalCode,City,State")] UserModel userModel)
         {
-            if (id != contactInfoModel.Id)
+            if (id != userModel.Id)
             {
                 return NotFound();
             }
@@ -100,12 +103,12 @@ namespace Test.Controllers
             {
                 try
                 {
-                    _context.Update(contactInfoModel);
+                    _context.Update(userModel);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ContactInfoModelExists(contactInfoModel.Id))
+                    if (!UserModelExists(userModel.Id))
                     {
                         return NotFound();
                     }
@@ -116,10 +119,10 @@ namespace Test.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(contactInfoModel);
+            return View(userModel);
         }
 
-        // GET: ContactInfoModels/Delete/5
+        // GET: UserModels/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -127,30 +130,30 @@ namespace Test.Controllers
                 return NotFound();
             }
 
-            var contactInfoModel = await _context.ContactInfoModels
+            var userModel = await _context.Users
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (contactInfoModel == null)
+            if (userModel == null)
             {
                 return NotFound();
             }
 
-            return View(contactInfoModel);
+            return View(userModel);
         }
 
-        // POST: ContactInfoModels/Delete/5
+        // POST: UserModels/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var contactInfoModel = await _context.ContactInfoModels.FindAsync(id);
-            _context.ContactInfoModels.Remove(contactInfoModel);
+            var userModel = await _context.Users.FindAsync(id);
+            _context.Users.Remove(userModel);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ContactInfoModelExists(int id)
+        private bool UserModelExists(int id)
         {
-            return _context.ContactInfoModels.Any(e => e.Id == id);
+            return _context.Users.Any(e => e.Id == id);
         }
     }
 }

@@ -1,0 +1,70 @@
+﻿@Html.Partial("_Header")
+<div> STEP 2: Areas</div>
+
+@Html.Partial("_Menu")
+
+
+<div class="formDisplay">
+    <div>* Business Areas</div>
+    <div class="form-check ">
+        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+        <label class="form-check-label" for="flexCheckDefault">
+            Finance
+        </label>
+    </div>
+    <div class="form-check ">
+        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
+        <label class="form-check-label" for="flexCheckChecked">
+            Operations
+        </label>
+    </div>
+    <div class="form-check ">
+        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
+        <label class="form-check-label" for="flexCheckChecked">
+            IT
+        </label>
+    </div>
+    <div class="form-check ">
+        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
+        <label class="form-check-label" for="flexCheckChecked">
+            Sales
+        </label>
+    </div>
+    <div class="form-check ">
+        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
+        <label class="form-check-label" for="flexCheckChecked">
+            Administrative
+        </label>
+    </div>
+    <div class="form-check ">
+        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
+        <label class="form-check-label" for="flexCheckChecked">
+            Legal
+        </label>
+    </div>
+    <div class="form-check ">
+        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
+        <label class="form-check-label" for="flexCheckChecked">
+            Marketing
+        </label>
+    </div>
+</div>
+<div class="comments">
+    <label>*Comments</label>
+<textarea class="form-control" id="exampleFormControlTextarea1" rows="3" style="width: 500px"></textarea>
+    <label style="width: 500px;">LET US KNOW FOR WHICH NETWORK YOU ARE REQUESTING ACCESS, AND ANY OTHER COMMENTS YOU'D LIKE TO LEAVE US</label>
+</div>
+
+<body>
+    <button type="submit" class="backButton">
+        <a asp-controller="UserModels" asp-action="Create">
+            <div>Back</div>
+        </a>
+    </button>
+    <button class="nextButton">
+        <a style="color: azure" asp-controller="UserModels" asp-action="Page3">
+            <div>Next</div>
+        </a>
+    </button>
+    @Html.Partial("_Footer")
+</body>
