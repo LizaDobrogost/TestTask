@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using Test.Data;
 using Test.Models;
 
@@ -12,148 +9,160 @@ namespace Test.Controllers
 {
     public class UserModelsController : Controller
     {
-        private readonly TestDbContext _context;
+        private readonly TestDbContext _testDbContext;
 
-        public UserModelsController(TestDbContext context)
+        public UserModelsController(TestDbContext testDbContext)
         {
-            _context = context;
+            _testDbContext = testDbContext;
         }
 
-        // GET: UserModels
-        public async Task<IActionResult> Index()
+        public IActionResult Step1()
         {
-            return View(await _context.Users.ToListAsync());
-        }
-
-        // GET: UserModels/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
+            UserModel user = new UserModel
             {
-                return NotFound();
-            }
-
-            var userModel = await _context.Users
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (userModel == null)
-            {
-                return NotFound();
-            }
-
-            return View(userModel);
-        }
-
-        // GET: UserModels/Create
-        public IActionResult Create()
-        {
+                Area = IsCheckList()
+            };
+            HttpContext.Session.SetString("user", JsonConvert.SerializeObject(user));
+           
             return View();
         }
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-        public IActionResult Page3()
+
+        public IActionResult Step2()
         {
             return View();
         }
 
-        // POST: UserModels/Create
+        public IActionResult Step3()
+        {
+            return View();
+        }
+
+        public IActionResult Success()
+        {
+            return View();
+        }
+
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FirstName,MiddleName,LastName,Company,Title,Email,Phone,Fax,Mobile,Comments,Country,OfficeName,Address,PostalCode,City,State")] UserModel userModel)
+        public ActionResult Stage1(ContactInfoModel contactInfo, string previousBtn, string nextBtn)
         {
-            if (ModelState.IsValid)
+            UserModel userModel = JsonConvert.DeserializeObject<UserModel>(HttpContext.Session.GetString("user"));
+
+            if (nextBtn != null)
             {
-                _context.Add(userModel);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    userModel.Id = contactInfo.Id;
+                    userModel.FirstName = contactInfo.FirstName;
+                    userModel.MiddleName = contactInfo.MiddleName;
+                    userModel.LastName = contactInfo.LastName;
+                    userModel.Company = contactInfo.Company;
+                    userModel.Title = contactInfo.Title;
+                    userModel.Email = contactInfo.Email;
+                    userModel.Phone = contactInfo.Phone;
+                    userModel.Fax = contactInfo.Fax;
+                    userModel.Mobile = contactInfo.Mobile;
+
+                    HttpContext.Session.SetString("user", JsonConvert.SerializeObject(userModel));
+
+                    return View("Step2", userModel);
+                }
             }
-            return View(userModel);
+
+            return View("Step1",userModel);
         }
 
-        // GET: UserModels/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var userModel = await _context.Users.FindAsync(id);
-            if (userModel == null)
-            {
-                return NotFound();
-            }
-            return View(userModel);
-        }
-
-        // POST: UserModels/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,MiddleName,LastName,Company,Title,Email,Phone,Fax,Mobile,Comments,Country,OfficeName,Address,PostalCode,City,State")] UserModel userModel)
+        public ActionResult Stage2(AreasModel areasModel, string previousBtn, string nextBtn)
         {
-            if (id != userModel.Id)
+            UserModel userModel = JsonConvert.DeserializeObject<UserModel>(HttpContext.Session.GetString("user"));
+
+            if (previousBtn != null)
             {
-                return NotFound();
+                userModel.Area = areasModel.Area;
+                userModel.Comments = areasModel.Comments;
+
+                HttpContext.Session.SetString("user", JsonConvert.SerializeObject(userModel));
+
+                return View("Step1", userModel);
             }
 
-            if (ModelState.IsValid)
+            if (nextBtn != null)
             {
-                try
+                if (ModelState.IsValid)
                 {
-                    _context.Update(userModel);
-                    await _context.SaveChangesAsync();
+                    userModel.Area = areasModel.Area;
+                    userModel.Comments = areasModel.Comments;
+
+                    HttpContext.Session.SetString("user", JsonConvert.SerializeObject(userModel));
+
+                    return View("Step3", userModel);
                 }
-                catch (DbUpdateConcurrencyException)
+            }
+
+            return View("Step2", userModel);
+        }
+
+        [HttpPost]
+        public ActionResult Stage3(AddressModel addressModel, string previousBtn, string nextBtn)
+        {
+            UserModel userModel = JsonConvert.DeserializeObject<UserModel>(HttpContext.Session.GetString("user"));
+
+            if (previousBtn != null)
+            {
+                userModel.Country = addressModel.Country;
+                userModel.OfficeName = addressModel.OfficeName;
+                userModel.Address = addressModel.Address;
+                userModel.PostalCode = addressModel.PostalCode;
+                userModel.City = addressModel.City;
+                userModel.State = addressModel.State;
+
+                HttpContext.Session.SetString("user", JsonConvert.SerializeObject(userModel));
+
+                return View("Step2", userModel);
+            }
+
+            if (nextBtn != null)
+            {
+                if (ModelState.IsValid)
                 {
-                    if (!UserModelExists(userModel.Id))
+                    userModel.Country = addressModel.Country;
+                    userModel.OfficeName = addressModel.OfficeName;
+                    userModel.Address = addressModel.Address;
+                    userModel.PostalCode = addressModel.PostalCode;
+                    userModel.City = addressModel.City;
+                    userModel.State = addressModel.State;
+
+                    foreach (var i in userModel.Area)
                     {
-                        return NotFound();
+                        if (i.Selected==true)
+                        {
+                             _testDbContext.Areas.Add(i);
+                        }
                     }
-                    else
-                    {
-                        throw;
-                    }
+                    _testDbContext.Users.Add(userModel);
+                    _testDbContext.SaveChanges();
+
+                    return View("Success");
                 }
-                return RedirectToAction(nameof(Index));
             }
-            return View(userModel);
+
+            return View("Step3", userModel);
         }
 
-        // GET: UserModels/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public List<Area> IsCheckList()
         {
-            if (id == null)
+            List<Area> areasList = new List<Area>
             {
-                return NotFound();
-            }
+                new() {AreaName = "Finance"},
+                new() {AreaName = "Operations"},
+                new() {AreaName = "IT"},
+                new() {AreaName = "Sales"},
+                new() {AreaName = "Administrative"},
+                new() {AreaName = "Legal"},
+                new() {AreaName = "Marketing"}
+            };
 
-            var userModel = await _context.Users
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (userModel == null)
-            {
-                return NotFound();
-            }
-
-            return View(userModel);
-        }
-
-        // POST: UserModels/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var userModel = await _context.Users.FindAsync(id);
-            _context.Users.Remove(userModel);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool UserModelExists(int id)
-        {
-            return _context.Users.Any(e => e.Id == id);
+            return areasList;
         }
     }
 }
