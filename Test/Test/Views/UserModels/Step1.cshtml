@@ -1,0 +1,82 @@
+﻿@model Test.Models.UserModel
+
+@Html.Partial("_Header")
+<div> STEP 1: Contact Info</div>
+@Html.Partial("_Menu")
+
+@using (Html.BeginForm("Stage1", "UserModels", FormMethod.Post))
+{
+<div class="col" style="display: inline-block; float: right; width: 850px;">
+    <div class="form-group row ">
+
+        @Html.LabelFor(model => model.FirstName, new { @class = "control-label col-md-2" })
+        <div class="col-sm-4">
+            @Html.TextBoxFor(model => model.FirstName)
+            <div>@Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })</div>
+        </div>
+
+        @Html.LabelFor(model => model.Email, new { @class = "control-label col-md-2" })
+        <div class="col-sm-4">
+            @Html.TextBoxFor(model => model.Email)
+            <div> @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })</div>
+        </div>
+    </div>
+    <div class="form-group row" onsubmit="return checkForm(this);">
+        @Html.LabelFor(model => model.MiddleName, new { @class = "control-label col-md-2" })
+        <div class="col-sm-4">
+            @Html.TextBoxFor(model => model.MiddleName)
+            <div>@Html.ValidationMessageFor(model => model.MiddleName, "", new { @class = "text-danger" }) </div>
+        </div>
+
+        @Html.LabelFor(model => model.Email, "Confirm Email", new { @class = "control-label col-md-2" })
+        <div class="col-sm-4">
+            @Html.TextBoxFor(model => model.Email)
+            <div>@Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" }) </div>
+        </div>
+    </div>
+    <div class="form-group row">
+        @Html.LabelFor(model => model.LastName, new { @class = "control-label col-md-2" })
+        <div class="col-sm-4">
+            @Html.TextBoxFor(model => model.LastName)
+            <div>@Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })</div>
+        </div>
+        @Html.LabelFor(model => model.Phone, new { @class = "control-label col-md-2" })
+        <div class="col-sm-4">
+            @Html.TextBoxFor(model => model.Phone)
+            <div>@Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })</div>
+        </div>
+    </div>
+    <div class="form-group row">
+
+        @Html.LabelFor(model => model.Company, new { @class = "control-label col-md-2" })
+        <div class="col-sm-4">
+            @Html.TextBoxFor(model => model.Company)
+            <div>@Html.ValidationMessageFor(model => model.Company, "", new { @class = "text-danger" })</div>
+        </div>
+
+        @Html.LabelFor(model => model.Fax, new { @class = "control-label col-md-2" })
+        <div class="col-sm-4">
+            @Html.TextBoxFor(model => model.Fax)
+            <div>@Html.ValidationMessageFor(model => model.Fax, "", new { @class = "text-danger" })</div>
+        </div>
+    </div>
+    <div class="form-group row">
+        @Html.LabelFor(model => model.Title, new { @class = "control-label col-md-2" })
+        <div class="col-sm-4">
+            @Html.TextBoxFor(model => model.Title)
+            <div>@Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })</div>
+        </div>
+        @Html.LabelFor(model => model.Mobile, new { @class = "control-label col-md-2" })
+        <div class="col-sm-4">
+            @Html.TextBoxFor(model => model.Mobile)
+            <div>@Html.ValidationMessageFor(model => model.Mobile, "", new { @class = "text-danger" })</div>
+        </div>
+    </div>
+
+</div>
+
+    <button class="nextButton">
+        <input type="submit" name="nextBtn" value="Next" class="btn btn-default"/>
+    </button>
+}
+@Html.Partial("_Footer")

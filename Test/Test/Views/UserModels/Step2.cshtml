@@ -1,0 +1,41 @@
+﻿@model Test.Models.UserModel
+
+@Html.Partial("_Header")
+<div> STEP 2: Area</div>
+@Html.Partial("_Menu")
+
+
+@using (Html.BeginForm("Stage2", "UserModels", FormMethod.Post))
+{
+    <div class="formDisplay">
+        <div>* Business Area</div>
+        @{
+            for (int i = 0; i < Model.Area.Count; i++)
+            {
+                <div>
+                    @Html.CheckBoxFor(c => c.Area[i].Selected)
+                    @Model.Area[i].AreaName
+                    @Html.HiddenFor(c => c.Area[i].Id)
+                    @Html.HiddenFor(c => c.Area[i].AreaName)
+                </div>
+            }
+        }
+    </div>
+    <div class="comments">
+        @Html.LabelFor(model => model.Comments, new {@class = "col-md-2"})
+        <div class="col-sm-4">
+            @Html.TextBoxFor(model => model.Comments, new {style = "width:500px"})
+            @Html.ValidationMessageFor(model => model.Comments, "", new {style = "width:500px", @class = "text-danger"})
+        </div>
+        <label style="width: 500px;">LET US KNOW FOR WHICH NETWORK YOU ARE REQUESTING ACCESS, AND ANY OTHER COMMENTS YOU'D LIKE TO LEAVE US</label>
+    </div>
+    
+    <div class="backButton">
+        <input type="submit" name="previousBtn" value="Back" class="btn btn-default"/>
+    </div>
+    <div class="nextButton">
+        <input type="submit" name="nextBtn" value="Next" class="btn btn-default"/>
+    </div>
+    @Html.Partial("_Footer")
+    
+}
