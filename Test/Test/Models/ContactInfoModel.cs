@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Test.Models
 {
+    [Serializable]
     public class ContactInfoModel
     {
         [Key]
@@ -14,6 +15,7 @@ namespace Test.Models
         public int Id { get; set; }
         [Required(ErrorMessage = "First Name is required")]
         public string FirstName { get; set; }
+        [Required(ErrorMessage = "Middle Name is required")]
         public string MiddleName { get; set; }
         [Required(ErrorMessage = "Last Name is required")]
         public string LastName { get; set; }

@@ -7,11 +7,9 @@ using System.Threading.Tasks;
 
 namespace Test.Models
 {
+    [Serializable]
     public class AddressModel
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
         [Required(ErrorMessage = "Choose country")]
         public string Country { get; set; }
         [Required(ErrorMessage = "Office Name is required")]
