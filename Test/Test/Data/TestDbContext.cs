@@ -11,6 +11,7 @@ namespace Test.Data
     public class TestDbContext:DbContext
     {
         public DbSet<UserModel> Users { get; set; }
+        public DbSet<Area> Areas { get; set; }
         public TestDbContext(DbContextOptions<TestDbContext> options):
             base(options)
         {
